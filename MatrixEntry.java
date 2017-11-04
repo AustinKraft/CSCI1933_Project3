@@ -33,9 +33,8 @@ public class MatrixEntry {
         this.data = data;
     }
     public void setNextColumn(MatrixEntry el){
-        if (el.getColumn() == this.col+1) {
-            nextColumn = el;
-        }
+        nextColumn = el;
+
     }
     public MatrixEntry getNextRow(){
         return nextRow;
@@ -44,9 +43,7 @@ public class MatrixEntry {
         return nextColumn;
     }
     public void setNextRow(MatrixEntry el){
-        if (el.getRow() == this.row + 1){
-            nextRow = el;
-        }
+        nextRow = el;
     }
 
     public static void main(String[] args) {
