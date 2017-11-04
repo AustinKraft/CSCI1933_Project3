@@ -2,10 +2,14 @@ public class MatrixEntry {
     private int row;
     private int col;
     private int data;
+    private MatrixEntry nextRow;
+    private MatrixEntry nextColumn;
     public MatrixEntry(int row, int col, int data){
         this.row = row;
         this.col = col;
         this.data = data;
+        nextRow = null;
+        nextColumn = null;
 
     }
     public int getColumn(){
@@ -27,20 +31,20 @@ public class MatrixEntry {
         this.data = data;
     }
     public void setNextColumn(MatrixEntry el){
-        el.setRow(this.row+1);
-        el.setColumn(this.col);
+        nextColumn.setRow(el.getRow());
+        nextColumn.setColumn(el.getColumn());
+        nextColumn.setData(el.getData());
     }
     public MatrixEntry getNextRow(){
-        MatrixEntry next = new MatrixEntry(this.row, this.col+1, this.data);
-        return next;
+        return nextRow;
     }
     public MatrixEntry getNextColumn(){
-        MatrixEntry next = new MatrixEntry(this.row + 1, this.col, this.data);
-        return next;
+        return nextColumn;
     }
     public void setNextRow(MatrixEntry el){
-        el.setRow(this.row);
-        el.setColumn(this.col+1);
+        nextRow.setRow(el.getRow());
+        nextRow.setColumn(el.getColumn());
+        nextRow.setData(el.getData());
     }
 
 }
