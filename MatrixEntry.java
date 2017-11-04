@@ -13,19 +13,19 @@ public class MatrixEntry {
 
     }
     public int getColumn(){
-        return col;
+        return this.col;
     }
     public void setColumn(int col){
         this.col = col;
     }
     public int getRow(){
-        return row;
+        return this.row;
     }
     public void setRow(int col){
         this.row = row;
     }
     public int getData(){
-        return data;
+        return this.data;
     }
     public void setData(int data){
         this.data = data;
@@ -45,6 +45,17 @@ public class MatrixEntry {
         nextRow.setRow(el.getRow());
         nextRow.setColumn(el.getColumn());
         nextRow.setData(el.getData());
+    }
+
+    public static void main(String[] args) {
+        MatrixEntry el = new MatrixEntry(1,1,10);
+        MatrixEntry el1 = new MatrixEntry(1,2, 11);
+        el.setNextColumn(el1);
+        MatrixEntry el2 = new MatrixEntry(2,1,12);
+        el.setNextRow(el2);
+
+        System.out.println(el.getNextRow().getData());
+        System.out.println(el.getNextColumn().getData());
     }
 
 }
