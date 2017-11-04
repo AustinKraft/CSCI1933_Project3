@@ -39,21 +39,8 @@ public class MatrixEntry {
         this.data = data;
     }
     public void setNextColumn(MatrixEntry el){
-<<<<<<< HEAD
-<<<<<<< HEAD
         nextColumn = el;
-
-=======
-        nextColumn.setRow(el.getRow());
-        nextColumn.setColumn(el.getColumn());
-        nextColumn.setData(el.getData());
->>>>>>> parent of 5690ff9... setnext methods
-=======
-        if (el.getColumn() == this.col+1) {
-            nextColumn = el;
         }
->>>>>>> parent of d256794... Junk
-    }
     public MatrixEntry getNextRow(){
         return nextRow;
     }
@@ -61,19 +48,7 @@ public class MatrixEntry {
         return nextColumn;
     }
     public void setNextRow(MatrixEntry el){
-<<<<<<< HEAD
-<<<<<<< HEAD
         nextRow = el;
-=======
-        nextRow.setRow(el.getRow());
-        nextRow.setColumn(el.getColumn());
-        nextRow.setData(el.getData());
->>>>>>> parent of 5690ff9... setnext methods
-=======
-        if (el.getRow() == this.row + 1){
-            nextRow = el;
-        }
->>>>>>> parent of d256794... Junk
     }
 
     public static void main(String[] args) {
