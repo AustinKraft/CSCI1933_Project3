@@ -5,6 +5,10 @@ public class MatrixEntry {
     private MatrixEntry nextRow;
     private MatrixEntry nextColumn;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
     public MatrixEntry(int row, int col, int data){
         this.row = row;
         this.col = col;
@@ -22,7 +26,7 @@ public class MatrixEntry {
     public int getRow(){
         return this.row;
     }
-    public void setRow(int col){
+    public void setRow(int row){
         this.row = row;
     }
     public int getData(){
@@ -32,9 +36,9 @@ public class MatrixEntry {
         this.data = data;
     }
     public void setNextColumn(MatrixEntry el){
-        nextColumn.setRow(el.getRow());
-        nextColumn.setColumn(el.getColumn());
-        nextColumn.setData(el.getData());
+        if (el.getColumn() == this.col+1) {
+            nextColumn = el;
+        }
     }
     public MatrixEntry getNextRow(){
         return nextRow;
@@ -43,9 +47,9 @@ public class MatrixEntry {
         return nextColumn;
     }
     public void setNextRow(MatrixEntry el){
-        nextRow.setRow(el.getRow());
-        nextRow.setColumn(el.getColumn());
-        nextRow.setData(el.getData());
+        if (el.getRow() == this.row + 1){
+            nextRow = el;
+        }
     }
 
     public static void main(String[] args) {
@@ -54,7 +58,6 @@ public class MatrixEntry {
         el.setNextColumn(el1);
         MatrixEntry el2 = new MatrixEntry(2,1,12);
         el.setNextRow(el2);
-
         System.out.println(el.getNextRow().getData());
         System.out.println(el.getNextColumn().getData());
     }
