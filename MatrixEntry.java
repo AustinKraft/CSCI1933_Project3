@@ -4,14 +4,7 @@ public class MatrixEntry {
     private int data;
     private MatrixEntry nextRow;
     private MatrixEntry nextColumn;
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-=======
->>>>>>> origin/master
     public MatrixEntry(int row, int col, int data){
         this.row = row;
         this.col = col;
@@ -51,15 +44,5 @@ public class MatrixEntry {
         nextRow = el;
     }
 
-    public static void main(String[] args) {
-        MatrixEntry el = new MatrixEntry(1,1,10);
-        MatrixEntry el1 = new MatrixEntry(1,2, 11);
-        el.setNextColumn(el1);
-        MatrixEntry el2 = new MatrixEntry(2,1,12);
-        el.setNextRow(el2);
-
-        System.out.println(el.getNextRow().getData());
-        System.out.println(el.getNextColumn().getData());
-    }
 
 }

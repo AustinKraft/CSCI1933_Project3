@@ -48,6 +48,17 @@ public class SparseIntMatrix {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+
+        int row_counter = 0;
+        while(row_counter< numRows-1){
+            rowHeads[row_counter].setNextRow(rowHeads[row_counter+1]);
+            row_counter++;
+        }
+        int col_counter = 0;
+        while(col_counter< numRows-1){
+            colHeads[col_counter].setNextColumn(colHeads[col_counter+1]);
+            col_counter++;
+        }
     }
 
     public int getElement(int row, int col) {
