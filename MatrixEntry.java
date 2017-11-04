@@ -4,6 +4,7 @@ public class MatrixEntry {
     private int data;
     private MatrixEntry nextRow;
     private MatrixEntry nextColumn;
+
     public MatrixEntry(int row, int col, int data){
         this.row = row;
         this.col = col;
