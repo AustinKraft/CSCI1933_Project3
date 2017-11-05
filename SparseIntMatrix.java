@@ -14,20 +14,20 @@ public class SparseIntMatrix {
     private int numCols;
     private String inputFile;
     private MatrixEntry[] rowHeads;
-    private MatrixEntry[] colHeads;
+    //private MatrixEntry[] colHeads;
 
-    public SparseIntMatrix(int numRows, int numCols){
+    public SparseIntMatrix(int numRows, int numCols) {
         this.numRows = numRows;
         this.numCols = numCols;
         rowHeads = new MatrixEntry[numRows];
-        colHeads = new MatrixEntry[numCols];
+        //colHeads = new MatrixEntry[numCols];
     }
 
-    public SparseIntMatrix(int numRows, int numCols, String inputFile){
+    public SparseIntMatrix(int numRows, int numCols, String inputFile) {
         this.numRows = numRows;
         this.numCols = numCols;
         rowHeads = new MatrixEntry[numRows];
-        colHeads = new MatrixEntry[numCols];
+        //colHeads = new MatrixEntry[numCols];
         this.inputFile = inputFile;
         try {
             File f = new File(inputFile);
@@ -38,61 +38,93 @@ public class SparseIntMatrix {
                 int row = Integer.valueOf(matrix[0]);
                 int col = Integer.valueOf(matrix[1]);
                 int data = Integer.valueOf(matrix[2]);
-                rowHeads[row]= new MatrixEntry(row,col,data);
-                colHeads[col] = new MatrixEntry(row,col,data);
+                MatrixEntry temp = new MatrixEntry(row, col, data);
 
+                if (rowHeads[row]!=null){
+                    if (col<rowHeads[row].getColumn()){
+                        temp.setNextColumn(rowHeads[row]);
+                        rowHeads[row]=temp;
+                    }
+                    else if (col>rowHeads[row].getColumn()){
+                        MatrixEntry helper = rowHeads[row];
+                        while (helper.getNextColumn()!= null && helper.getNextColumn().getColumn()<col){
+                            helper = helper.getNextColumn();
+                        }
+                        helper.setNextColumn(temp);
+                    }
+                }
+                else{
+                    rowHeads[row] = temp;
+
+                }/* We don't really need colHeads
+                if (colHeads[col]!=null){
+                    if (col<colHeads[col].getRow()){
+                        temp.setNextColumn(colHeads[col]);
+                        colHeads[col]=temp;
+                    }
+                    else{
+                        colHeads[col].setNextRow(temp);
+                    }
+                }
+                else{
+                    colHeads[col] = temp;
+
+                }*/
             }
-        }
-        catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Sorry, can't find file!");
             System.out.println(e.getMessage());
             System.exit(1);
-        }
-
-        int row_counter = 0;
-        while(row_counter< numRows-1){
-            rowHeads[row_counter].setNextRow(rowHeads[row_counter+1]);
-            row_counter++;
-        }
-        int col_counter = 0;
-        while(col_counter< numRows-1){
-            colHeads[col_counter].setNextColumn(colHeads[col_counter+1]);
-            col_counter++;
         }
     }
 
     public int getElement(int row, int col) {
         MatrixEntry x;
-        if (row >= 0 && row <= numRows && col >= 0 && col <= numCols){
-            if (rowHeads[row] != null) {
+        if (row >= 0 && row <= numRows && col >= 0 && col <= numCols) {
+            if (rowHeads[row]!=null){
                 x = rowHeads[row];
-                for (int i = 0; i < numCols; i++) {
-                    if (x.getColumn() == col) {
-                        return x.getData(); //should we be returning the integer data at that point, or 1: I think it's the integer data at that point
+                if (x.getColumn() == col){
+                    return x.getData();
+                }
+                else{
+                    while (x.getNextColumn()!= null && x.getColumn()!= col) {
+                        x = x.getNextColumn();
                     }
-                    x = x.getNextColumn();
+                    return x.getData();
                 }
             }
         }
         return 0;
+
     }
 
-    public boolean setElement(int row, int col, int data){
-        MatrixEntry x;
-        if (row >= 0 && row <= numRows && col >= 0 && col <= numCols){
-            if (rowHeads[row] != null) {
-                x = rowHeads[row];
-                for (int i = 0; i < numCols; i++) {
-                    if (x.getColumn() == col) {
-                        x.setData(data);
-                        return true;
-                    }
-                    x = x.getNextColumn();
-                }
+    public boolean setElement(int row, int col, int data) {
+        MatrixEntry entryToSet = new MatrixEntry(row, col, data);
+        if (rowHeads[row]!=null){
+            if (col<rowHeads[row].getColumn()){
+                entryToSet.setNextColumn(rowHeads[row]);
+                rowHeads[row]= entryToSet;
+                return true;
             }
+            else if (col>rowHeads[row].getColumn()){
+                MatrixEntry helper = rowHeads[row];
+                while (helper.getNextColumn()!= null && helper.getNextColumn().getColumn()<col){
+                    helper = helper.getNextColumn();
+                }
+                helper.setNextColumn(entryToSet);
+                return true;
+            }
+        }
+        else{
+            rowHeads[row] = entryToSet;
+            return true;
+
         }
         return false;
     }
+
+
+
 
     public int getNumCols() {
         return numCols;
