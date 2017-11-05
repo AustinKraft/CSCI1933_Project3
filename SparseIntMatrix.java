@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 public class SparseIntMatrix {
+    private MatrixEntry firstEntry;
     private int numRows;
     private int numCols;
     private String inputFile;
