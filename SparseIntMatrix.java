@@ -57,20 +57,7 @@ public class SparseIntMatrix {
                 else{
                     rowHeads[row] = temp;
 
-                }/* We don't really need colHeads
-                if (colHeads[col]!=null){
-                    if (col<colHeads[col].getRow()){
-                        temp.setNextColumn(colHeads[col]);
-                        colHeads[col]=temp;
-                    }
-                    else{
-                        colHeads[col].setNextRow(temp);
-                    }
                 }
-                else{
-                    colHeads[col] = temp;
-
-                }*/
             }
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, can't find file!");
@@ -80,23 +67,26 @@ public class SparseIntMatrix {
     }
 
     public int getElement(int row, int col) {
-        MatrixEntry x;
+        int result = 0;
         if (row >= 0 && row <= numRows && col >= 0 && col <= numCols) {
-            if (rowHeads[row]!=null){
+            MatrixEntry x;
+            if (rowHeads[row] != null){
                 x = rowHeads[row];
                 if (x.getColumn() == col){
-                    return x.getData();
+                    result =  x.getData();
                 }
                 else{
-                    while (x.getNextColumn()!= null && x.getColumn()!= col) {
+                    while (x.getColumn()!= col && x.getNextColumn() != null) {
                         x = x.getNextColumn();
                     }
-                    return x.getData();
+                    if (x.getRow() == row && x.getColumn() == col) {
+                        result = x.getData();
+                    }
                 }
             }
-        }
-        return 0;
 
+        }
+        return result;
     }
 
     public boolean setElement(int row, int col, int data) {
@@ -149,9 +139,22 @@ public class SparseIntMatrix {
 
     public boolean minus(SparseIntMatrix otherMat){
         if ((this.numRows == otherMat.numRows) && (this.numCols == otherMat.numCols)){
-            for (int x = 0; x< numRows; x++){
-                for (int y = 0; y<numCols; y++){
-                    this.setElement(x,y,(this.getElement(x,y)-otherMat.getElement(x,y)));
+            for (int x= 0; x<this.numRows; x++) {
+                MatrixEntry this_helper = this.rowHeads[x];
+                MatrixEntry other_helper = otherMat.rowHeads[x];
+                if (other_helper != null) {
+                    if (this_helper.getColumn() == other_helper.getColumn()) {
+                        this_helper.setData(this_helper.getData() - other_helper.getData());
+                        this.setElement(this_helper.getRow(), this_helper.getColumn(), this_helper.getData());
+                    } else {
+                        if (this_helper.getNextColumn() != null && other_helper.getNextColumn() != null) {
+                            this_helper.getNextColumn();
+                            other_helper.getNextColumn();
+                        }
+                    }
+                }
+                if (this_helper != null){
+                    // System.out.println(this_helper.getRow() + " " + this_helper.getColumn() + " " + this.getElement(this_helper.getRow(), this_helper.getColumn()));
                 }
             }
             return true;
